@@ -1,5 +1,54 @@
+local DontSelfKick = {
+    4100502369, 4100514735, 411503757, 417874585, 1827946230, 1948121920, 
+    3224883664, 4100386422, 5610204920, 5610200624, 5601063676, 3462835050, 
+    478812989, 417459666, 5369108614, 5369108654, 5369108676, 5369108666, 
+    5369113988, 5369114008, 5369118339, 5369118366, 5369118372, 5369118323
+}
+
+local toggleActive = false
+
+local function shouldKick(player)
+    for _, id in ipairs(DontSelfKick) do
+        if player.UserId == id then
+            return false
+        end
+    end
+    return true
+end
+
+local function onKeyPress(input, gameProcessed)
+    if not gameProcessed then
+        local focusedTextBox = game:GetService("UserInputService"):GetFocusedTextBox()
+        if not focusedTextBox and input.KeyCode == Enum.KeyCode.J then
+            toggleActive = not toggleActive
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Notification",
+                Text = "Script is now " .. (toggleActive and "active" or "inactive"),
+                Icon = "",
+                Duration = 1
+            })
+            
+            -- Check current players when toggling the script on
+            if toggleActive then
+                for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+                    if player ~= game.Players.LocalPlayer and shouldKick(player) then
+                        game.Players.LocalPlayer:Kick("A player not on the whitelist has joined the game.")
+                    end
+                end
+            end
+        end
+    end
+end
+
+game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
+
+game:GetService("Players").PlayerAdded:Connect(function(player)
+    if toggleActive and shouldKick(player) then
+        game.Players.LocalPlayer:Kick("A player not on the whitelist has joined the game.")
+    end
+end)
+
+-- Load additional scripts
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Tewtiy551/tewwwww/main/tewwww", true))()
-wait (0.5)
+wait(0.5)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Tewtiy551/tewwwewew/main/imtew", true))()
-wait (0.5)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Tewtiy551/tewwwwwww2/main/teww", true))()
